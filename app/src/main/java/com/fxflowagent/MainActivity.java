@@ -12,6 +12,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         WebView webView = new WebView(this);
+
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
 
