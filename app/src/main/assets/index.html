@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FX Flow Agent</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #17202a;
+        }
+
+        header {
+            background: #17202a;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .menu {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 14px;
+            background: #e6eaf0;
+            color: #17202a;
+            font-size: 14px;
+        }
+
+        button:active {
+            background: #cfd6df;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .muted {
+            color: #667085;
+            font-size: 14px;
+        }
+
+        .value {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #edf0f2;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: #fff3cd;
+            color: #856404;
+            font-size: 13px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .small {
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    FX Flow Agent
+</header>
+
+<main>
+
+    <div class="menu">
+        <button onclick="showSection('home')">Главная</button>
+        <button onclick="showSection('flow')">Net FX Flow</button>
+        <button onclick="showSection('sources')">Источники</button>
+        <button onclick="showSection('history')">История</button>
+    </div>
+
+
+    <!-- ГЛАВНАЯ -->
+    <div id="home" class="section active">
+
+        <div class="card">
+            <div class="muted">Текущий расчёт</div>
+            <div class="value">+120 млрд ₽</div>
+            <p class="small">
+                Демонстрационное значение Net FX Flow.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="title">Статус системы</div>
+
+            <p>
+                <span class="status">Данные пока демонстрационные</span>
+            </p>
+
+            <p class="muted">
+                Реальные рыночные источники пока не подключены.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="title">Основные факторы</div>
+
+            <div class="row">
+                <span>Нефть</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>Газ</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>Металлы</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>Экспортная выручка</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>Минфин / ЦБ</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>CNY/RUB</span>
+                <b>—</b>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- NET FX FLOW -->
+    <div id="flow" class="section">
+
+        <div class="card">
+            <div class="title">Net FX Flow</div>
+
+            <div class="value">+120 млрд ₽</div>
+
+            <p class="muted">
+                Демонстрационный расчёт.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="title">Формула</div>
+
+            <p>
+                Net FX Flow =
+            </p>
+
+            <p>
+                продажа валютной выручки экспортёрами
+                + операции Минфина и ЦБ
+                − спрос на валюту
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="title">Рынок</div>
+
+            <div class="row">
+                <span>USD/RUB</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>CNY/RUB</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>EUR/RUB</span>
+                <b>—</b>
+            </div>
+
+            <div class="row">
+                <span>TOM</span>
+                <b>—</b>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ИСТОЧНИКИ -->
+    <div id="sources" class="section">
+
+        <div class="card">
+            <div class="title">Источники данных</div>
+
+            <div class="row">
+                <span>Банк России</span>
+                <b>не подключён</b>
+            </div>
+
+            <div class="row">
+                <span>Минфин</span>
+                <b>не подключён</b>
+            </div>
+
+            <div class="row">
+                <span>Нефть</span>
+                <b>не подключена</b>
+            </div>
+
+            <div class="row">
+                <span>Газ</span>
+                <b>не подключён</b>
+            </div>
+
+            <div class="row">
+                <span>Металлы</span>
+                <b>не подключены</b>
+            </div>
+
+            <div class="row">
+                <span>CNY/RUB TOM</span>
+                <b>не подключён</b>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ИСТОРИЯ -->
+    <div id="history" class="section">
+
+        <div class="card">
+            <div class="title">История расчётов</div>
+
+            <div class="row">
+                <span>Сегодня</span>
+                <b>+120 млрд ₽</b>
+            </div>
+
+            <p class="muted small">
+                История станет автоматически заполняться
+                после подключения реальных источников данных.
+            </p>
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+function showSection(sectionName) {
+
+    var sections = document.querySelectorAll('.section');
+
+    for (var i = 0; i < sections.length; i++) {
+        sections[i].classList.remove('active');
+    }
+
+    var selected = document.getElementById(sectionName);
+
+    if (selected) {
+        selected.classList.add('active');
+    }
+}
+
+</script>
+
+</body>
+</html>
