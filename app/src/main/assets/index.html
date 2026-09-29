@@ -47,10 +47,6 @@
             font-size: 14px;
         }
 
-        button:active {
-            background: #cfd6df;
-        }
-
         .card {
             background: white;
             border-radius: 14px;
@@ -91,8 +87,8 @@
             display: inline-block;
             padding: 6px 10px;
             border-radius: 8px;
-            background: #fff3cd;
-            color: #856404;
+            background: #d1fae5;
+            color: #065f46;
             font-size: 13px;
         }
 
@@ -102,10 +98,6 @@
 
         .section.active {
             display: block;
-        }
-
-        .small {
-            font-size: 13px;
         }
     </style>
 </head>
@@ -125,31 +117,51 @@
         <button onclick="showSection('history')">История</button>
     </div>
 
-
     <!-- ГЛАВНАЯ -->
+
     <div id="home" class="section active">
 
         <div class="card">
-            <div class="muted">Текущий расчёт</div>
+            <div class="muted">Net FX Flow</div>
             <div class="value">+120 млрд ₽</div>
-            <p class="small">
-                Демонстрационное значение Net FX Flow.
+
+            <p class="muted">
+                Расчёт пока демонстрационный.
             </p>
         </div>
 
         <div class="card">
+
+            <div class="title">Курсы ЦБ РФ</div>
+
+            <div class="row">
+                <span>USD/RUB</span>
+                <b id="usdRate">загрузка...</b>
+            </div>
+
+            <div class="row">
+                <span>CNY/RUB</span>
+                <b id="cnyRate">загрузка...</b>
+            </div>
+
+            <p class="muted" id="cbrStatus">
+                Получение данных ЦБ РФ...
+            </p>
+
+        </div>
+
+        <div class="card">
+
             <div class="title">Статус системы</div>
 
             <p>
-                <span class="status">Данные пока демонстрационные</span>
+                <span class="status">ЦБ подключается</span>
             </p>
 
-            <p class="muted">
-                Реальные рыночные источники пока не подключены.
-            </p>
         </div>
 
         <div class="card">
+
             <div class="title">Основные факторы</div>
 
             <div class="row">
@@ -178,18 +190,21 @@
             </div>
 
             <div class="row">
-                <span>CNY/RUB</span>
+                <span>CNY/RUB TOM</span>
                 <b>—</b>
             </div>
+
         </div>
 
     </div>
 
 
     <!-- NET FX FLOW -->
+
     <div id="flow" class="section">
 
         <div class="card">
+
             <div class="title">Net FX Flow</div>
 
             <div class="value">+120 млрд ₽</div>
@@ -197,33 +212,33 @@
             <p class="muted">
                 Демонстрационный расчёт.
             </p>
+
         </div>
 
         <div class="card">
+
             <div class="title">Формула</div>
 
             <p>
-                Net FX Flow =
+                Продажа валютной выручки экспортёрами
+                + операции Минфина и ЦБ
+                − спрос на валюту.
             </p>
 
-            <p>
-                продажа валютной выручки экспортёрами
-                + операции Минфина и ЦБ
-                − спрос на валюту
-            </p>
         </div>
 
         <div class="card">
+
             <div class="title">Рынок</div>
 
             <div class="row">
                 <span>USD/RUB</span>
-                <b>—</b>
+                <b id="usdRateFlow">—</b>
             </div>
 
             <div class="row">
                 <span>CNY/RUB</span>
-                <b>—</b>
+                <b id="cnyRateFlow">—</b>
             </div>
 
             <div class="row">
@@ -235,20 +250,23 @@
                 <span>TOM</span>
                 <b>—</b>
             </div>
+
         </div>
 
     </div>
 
 
     <!-- ИСТОЧНИКИ -->
+
     <div id="sources" class="section">
 
         <div class="card">
+
             <div class="title">Источники данных</div>
 
             <div class="row">
                 <span>Банк России</span>
-                <b>не подключён</b>
+                <b id="cbrSourceStatus">подключается</b>
             </div>
 
             <div class="row">
@@ -275,26 +293,25 @@
                 <span>CNY/RUB TOM</span>
                 <b>не подключён</b>
             </div>
+
         </div>
 
     </div>
 
 
     <!-- ИСТОРИЯ -->
+
     <div id="history" class="section">
 
         <div class="card">
+
             <div class="title">История расчётов</div>
 
-            <div class="row">
-                <span>Сегодня</span>
-                <b>+120 млрд ₽</b>
-            </div>
-
-            <p class="muted small">
-                История станет автоматически заполняться
-                после подключения реальных источников данных.
+            <p class="muted">
+                История будет заполняться после подключения
+                автоматического сбора данных.
             </p>
+
         </div>
 
     </div>
@@ -317,6 +334,43 @@ function showSection(sectionName) {
     if (selected) {
         selected.classList.add('active');
     }
+}
+
+
+function loadCbrRates() {
+
+    if (!window.AndroidCbr) {
+        document.getElementById("cbrStatus").innerText =
+            "Соединение с модулем ЦБ не установлено.";
+
+        return;
+    }
+
+    var result = window.AndroidCbr.getRates();
+
+    if (!result) {
+        document.getElementById("cbrStatus").innerText =
+            "Не удалось получить данные ЦБ РФ.";
+
+        return;
+    }
+
+    var parts = result.split("\n");
+
+    var usd = parts[0].replace("USD/RUB: ", "");
+    var cny = parts[1].replace("CNY/RUB: ", "");
+
+    document.getElementById("usdRate").innerText = usd + " ₽";
+    document.getElementById("cnyRate").innerText = cny + " ₽";
+
+    document.getElementById("usdRateFlow").innerText = usd + " ₽";
+    document.getElementById("cnyRateFlow").innerText = cny + " ₽";
+
+    document.getElementById("cbrStatus").innerText =
+        "Данные получены.";
+
+    document.getElementById("cbrSourceStatus").innerText =
+        "подключён";
 }
 
 </script>
