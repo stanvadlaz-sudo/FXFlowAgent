@@ -373,10 +373,19 @@ function loadCbrRates() {
     document.getElementById("cnyRateFlow").innerText = cny + " ₽";
 
     document.getElementById("cbrStatus").innerText =
-        "Данные получены.";
+    "Данные получены.";
 
-    document.getElementById("cbrSourceStatus").innerText =
-        "подключён";
+document.getElementById("cbrSourceStatus").innerText =
+    "подключён";
+
+document.getElementById("cbrStatusBadge").innerText =
+    "ЦБ РФ — подключён";
+
+var now = new Date();
+
+document.getElementById("cbrUpdateTime").innerText =
+    "Последнее обновление: " +
+    now.toLocaleTimeString("ru-RU");
 }
 
 loadCbrRates();
