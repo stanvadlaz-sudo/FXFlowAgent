@@ -62,4 +62,53 @@ public class CbrService {
                     + e.getMessage();
         }
     }
+public static String getBrent() {
+
+    try {
+
+        URL url = new URL(
+                "https://biquote.io/api/UKOIL"
+        );
+
+        HttpURLConnection connection =
+                (HttpURLConnection) url.openConnection();
+
+        connection.setRequestMethod("GET");
+        connection.setConnectTimeout(10000);
+        connection.setReadTimeout(10000);
+
+        BufferedReader reader =
+                new BufferedReader(
+                        new InputStreamReader(
+                                connection.getInputStream()
+                        )
+                );
+
+        StringBuilder response =
+                new StringBuilder();
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+
+        reader.close();
+
+        JSONObject json =
+                new JSONObject(response.toString());
+
+        double price =
+                json.getDouble("mid");
+
+        double change =
+                json.getDouble("dayDiffPercent");
+
+        return "BRENT: " + price +
+                "\nCHANGE: " + change;
+
+    } catch (Exception e) {
+
+        return "ERROR: " + e.getMessage();
+    }
 }
