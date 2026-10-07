@@ -33,5 +33,8 @@ public class MainActivity extends Activity {
         public String getRates() {
             return CbrService.getRates();
         }
-    }
+    @JavascriptInterface
+public String getBrent() {
+    return CbrService.getBrent();
+}
 }
