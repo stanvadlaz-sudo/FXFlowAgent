@@ -412,6 +412,38 @@ document.getElementById("cbrUpdateTime").innerText =
     now.toLocaleTimeString("ru-RU");
 }
 
+loadCbrRates();function loadBrent() {
+
+    if (!window.AndroidCbr) {
+        document.getElementById("brentStatus").innerText =
+            "Соединение с модулем не установлено.";
+        return;
+    }
+
+    var result = window.AndroidCbr.getBrent();
+
+    if (!result || result.indexOf("ERROR:") === 0) {
+        document.getElementById("brentStatus").innerText =
+            "Не удалось получить цену Brent.";
+        return;
+    }
+
+    var parts = result.split("\n");
+
+    var price = parts[0].replace("BRENT: ", "");
+    var change = parts[1].replace("CHANGE: ", "");
+
+    document.getElementById("brentPrice").innerText =
+        price + " USD/барр.";
+
+    document.getElementById("brentChange").innerText =
+        change + "%";
+
+    document.getElementById("brentStatus").innerText =
+        "Brent • данные получены";
+}
+
+loadBrent();
 loadCbrRates();
 
 </script>
